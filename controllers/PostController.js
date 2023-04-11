@@ -17,25 +17,6 @@ export const getOne = async (req, res) => {
     try {
         const postId = (req.params.id).trim();
 
-        const filter = {_id: postId};
-        const update = {$inc: {viewsCount: 1}};
-        const options = {returnDocument: "after"};
-        const callBack = (err, doc) => {
-            if (err) {
-                console.log(err)
-                return res.status(500).json({
-                    message: "Не удалось вернуть статью",
-                })
-            }
-
-            if (!doc) {
-                return res.status(404).json({
-                    message: "Статья не найдена"
-                })
-            }
-            res.json(doc)
-        }
-
         await PostModel.findOneAndUpdate({_id: postId},{$inc: {viewsCount: 1}}, {returnDocument: "after"} )
             .then((doc, err) => {
                 if (err) {
@@ -58,57 +39,6 @@ export const getOne = async (req, res) => {
                     message: "Не удалось вернуть статью",
                 })
             });
-        
-        // await  PostModel.findOneAndUpdate(filter, update, options,  (err, doc) => {
-        //     if(err) {
-        //         console.log(err)
-        //         return  res.status(500).json({
-        //             message: "Не удалось вернуть статью",
-        //         })
-        //     }
-        //
-        //     if(!doc) {
-        //         return res.status(404).json({
-        //             message: "Статья не найдена"
-        //         })
-        //     }
-        //     res.json(doc)
-        // })
-        //   await res.json(doc)
-        // PostModel.findOneAndUpdate()
-        //     .then(function () {
-        //
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err);
-        //     });
-
-
-        //
-        // PostModel.findOneAndUpdate({
-        //     _id: postId,
-        // }, {
-        //     $inc: {viewsCount: 1}
-        // }, {
-        //     returnDocument: "after",
-        // },
-        //     // try {} catch() {}
-        //  async (err, doc) => {
-        //     if(err) {
-        //         console.log(err)
-        //        return  res.status(500).json({
-        //             message: "Не удалось вернуть статью",
-        //         })
-        //     }
-        //
-        //     if(!doc) {
-        //         return res.status(404).json({
-        //             message: "Статья не найдена"
-        //         })
-        //     }
-        //    await res.json(doc)
-        //     }
-        //     )
     } catch (err) {
         console.log(err)
         res.status(500).json({
