@@ -30,8 +30,42 @@ export const getOne = async (req, res) => {
                         message: "Статья не найдена"
                     })
                 }
-                console.log("Result :", doc);
                 res.json(doc)
+            })
+            .catch((err) => {
+                console.log(err)
+                return res.status(500).json({
+                    message: "Не удалось вернуть статью",
+                })
+            });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Не удалось получить статьи",
+        })
+    }
+}
+
+export const remove = async (req, res) => {
+    try {
+        const postId = (req.params.id).trim();
+
+        await PostModel.findOneAndDelete({_id: postId})
+            .then((doc, err) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: "Не удалось удалить статью",
+                    })
+                }
+
+                if (!doc) {
+                    return res.status(404).json({
+                        message: "Статья не найдена"
+                    })
+                }
+                res.json({
+                    success: true
+                })
             })
             .catch((err) => {
                 console.log(err)
@@ -65,6 +99,28 @@ export const create = async (req, res) => {
         console.log(err)
         res.status(500).json({
             message: "Не удалось зарегистрироваться",
+        })
+    }
+}
+
+export const update = async (req, res) => {
+    try {
+        const postId = (req.params.id).trim();
+
+        await PostModel.updateOne({_id: postId}, {
+            title: req.body.title,
+            text: req.body.text,
+            imageUrl: req.body.imageUrl,
+            tags: req.body.tags,
+            user: req.userId,
+        })
+        res.json({
+            success: true,
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Не удалось обновить статью",
         })
     }
 
