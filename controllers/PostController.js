@@ -15,6 +15,23 @@ export const getLastTags = async (req, res) => {
     }
 }
 
+export const getLastComments = async (req, res) => {
+    try {
+        const posts = await PostModel.find().limit(5).exec();
+
+        const comments = posts.map((obj) => obj.comments)
+            .flat()
+            .slice(0, 5)
+        res.json(comments)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Не удалось получить comments",
+        })
+    }
+    
+}
+
 export const getAll = async (req, res) => {
     try {
         const posts = await PostModel.find().populate('user').exec();
@@ -27,17 +44,18 @@ export const getAll = async (req, res) => {
     }
 }
 
-// export const sortByNovelty = async (reg, res) => {
-//     try {
-//         const posts = await PostModel.aggregate([{"$sort": { "createdAt": -1}}])
-//         res.json(posts)
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json({
-//             message: "Не удалось посортировать статьи",
-//         })
-//     }
-// }
+export const sortByTag = async (req, res) => {
+    try {
+        const tagName = (req.params.name)
+        const postsList = await PostModel.find({tags: tagName}).exec();
+        res.json(postsList)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Не удалось получить статьи для тега",
+        })
+    }
+}
 
 export const getOne = async (req, res) => {
     try {
@@ -70,6 +88,27 @@ export const getOne = async (req, res) => {
         console.log(err)
         res.status(500).json({
             message: "Не удалось получить статьи",
+        })
+    }
+}
+
+export const createComment = async (req, res) => {
+    try {
+        const postId = (req.params.id).trim();
+        await PostModel.updateOne({_id: postId}, {
+            title: req.body.title,
+            text: req.body.text,
+            imageUrl: req.body.imageUrl,
+            tags: req.body.tags,
+            comments: req.body.comments,
+        })
+        res.json({
+            success: true,
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Не удалось создать комментарий",
         })
     }
 }
@@ -118,6 +157,7 @@ export const create = async (req, res) => {
             imageUrl: req.body.imageUrl,
             tags: req.body.tags.split(','),
             user: req.userId,
+            comments: req.body.comments
         })
 
         const post = await doc.save();
@@ -132,6 +172,15 @@ export const create = async (req, res) => {
     }
 }
 
+export const sortByNewest = async (req, res) => {
+    try {
+        const posts = await PostModel.sort({createdAt: -1});
+        res.json(posts)
+    } catch (err) {
+
+    }
+}
+
 export const update = async (req, res) => {
     try {
         const postId = (req.params.id).trim();
@@ -142,6 +191,7 @@ export const update = async (req, res) => {
             imageUrl: req.body.imageUrl,
             tags: req.body.tags.split(','),
             user: req.userId,
+            comments: req.body.comments
         })
         res.json({
             success: true,
@@ -149,7 +199,7 @@ export const update = async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json({
-            message: "Не удалось обновить статью",
+            message: "Не удалось обновить статью.",
         })
     }
 }
