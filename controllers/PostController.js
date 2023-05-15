@@ -48,6 +48,7 @@ export const sortByTag = async (req, res) => {
     try {
         const tagName = (req.params.name)
         const postsList = await PostModel.find({tags: tagName}).exec();
+        console.log(tagName)
         res.json(postsList)
     } catch (err) {
         console.log(err)
