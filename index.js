@@ -55,7 +55,7 @@ app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, Post
 app.patch('/posts/:id', checkAuth,postCreateValidation, handleValidationErrors,PostController.update );
 app.delete('/posts/:id', checkAuth, PostController.remove );
 
-app.listen(4444, (err) => {
+app.listen(REACT_APP_API_URL || 4444, (err) => {
     if (err) {
         return console.log(err)
     }
