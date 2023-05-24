@@ -61,8 +61,9 @@ app.patch('/posts/:id', checkAuth,postCreateValidation, handleValidationErrors,P
 app.delete('/posts/:id', checkAuth, PostController.remove );
 
 // const PORT = 'https://mern-blog-new.onrender.com'
-const PORT = process.env.PORT || 4444
-app.listen( PORT, (err) => {
+// const PORT = process.env.PORT || 4444
+app.listen( process.env.PORT || 4444, (err) => {
+    console.log(`Server is listening on port ${process.env.PORT}`);
     if (err) {
         return console.log(err)
     }
