@@ -21,7 +21,7 @@ export const register = async (req, res) => {
                 _id: user._id
             }, 'secret123',
             {
-                expiresIn: '30d',
+                expiresIn: '90d',
             }
         );
 

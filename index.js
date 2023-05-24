@@ -11,9 +11,9 @@ import { handleValidationErrors, checkAuth }  from './utils/index.js'
 import { UserController, PostController } from "./controllers/index.js";
 
 mongoose.connect('mongodb+srv://remmi:wwwwww@cluster0.j5xu8.mongodb.net/blog?retryWrites=true&w=majority')
-// mongoose.connect('process.env.MONGO_URL')
+// mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
-        console.log("DB OK")
+        console.log("DB  OK")
     })
     .catch((error) => console.log('DB error', error))
 
@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
         if(!fs.existsSync('uploads')) {
             fs.mkdirSync('uploads')
         }
-        cb(null, './https://mern-blog-new.onrender.com/uploads')
+        cb(null, 'uploads')
     },
     filename:(_, file, cb) => {
         cb(null, file.originalname)
@@ -35,7 +35,7 @@ const upload = multer({storage})
 
 app.use(express.json());
 app.use(cors())
-app.use('/uploads', express.static('./https://mern-blog-new.onrender.com/uploads'))
+app.use('/uploads', express.static('uploads'))
 app.use('/uploads/avatar', express.static('uploads'))
 
 app.post('/auth/login',loginValidation, handleValidationErrors, UserController.login)
