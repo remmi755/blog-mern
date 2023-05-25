@@ -44,7 +44,7 @@ app.get('/auth/me', checkAuth, UserController.getMe );
 
 app.post('/upload',checkAuth, upload.single('image'), (req, res) => {
     res.json({
-        url: `/uploads/${req.file.originalname}`
+        url: `./https://mern-blog-new.onrender.com/uploads/${req.file.originalname}`
     })
 })
 
@@ -60,7 +60,7 @@ app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, Post
 app.patch('/posts/:id', checkAuth,postCreateValidation, handleValidationErrors,PostController.update );
 app.delete('/posts/:id', checkAuth, PostController.remove );
 
-// const PORT = 'https://mern-blog-new.onrender.com'
+const PORT = 'https://mern-blog-new.onrender.com'
 // const PORT = process.env.PORT || 4444
 app.listen( process.env.PORT || 4444, (err) => {
     console.log(`Server is listening on port ${process.env.PORT}`);
