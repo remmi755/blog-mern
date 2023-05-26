@@ -35,8 +35,8 @@ const upload = multer({storage})
 
 app.use(express.json());
 app.use(cors())
-app.use('https://mern-blog-new.onrender.com/uploads', express.static('uploads'))
-app.use('https://mern-blog-new.onrender.com/uploads/avatar', express.static('uploads'))
+app.use('/uploads', express.static('https://mern-blog-new.onrender.com/uploads'))
+app.use('/uploads/avatar', express.static('https://mern-blog-new.onrender.com/uploads'))
 
 app.post('/auth/login',loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors,  UserController.register)
