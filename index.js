@@ -21,10 +21,10 @@ const app = express();
 
 const storage = multer.diskStorage({
     destination:(_,__, cb) => {
-        if(!fs.existsSync('https://mern-blog-new.onrender.com/uploads')) {
-            fs.mkdirSync('https://mern-blog-new.onrender.com/uploads')
+        if(!fs.existsSync('./https://mern-blog-new.onrender.com/uploads')) {
+            fs.mkdirSync('./https://mern-blog-new.onrender.com/uploads')
         }
-        cb(null, 'https://mern-blog-new.onrender.com/uploads')
+        cb(null, './https://mern-blog-new.onrender.com/uploads')
     },
     filename:(_, file, cb) => {
         cb(null, file.originalname)
@@ -35,8 +35,8 @@ const upload = multer({storage})
 
 app.use(express.json());
 app.use(cors())
-app.use('/uploads', express.static('https://mern-blog-new.onrender.com/uploads'))
-app.use('/uploads/avatar', express.static('https://mern-blog-new.onrender.com/uploads'))
+app.use('/uploads', express.static('./https://mern-blog-new.onrender.com/uploads'))
+app.use('/uploads/avatar', express.static('./https://mern-blog-new.onrender.com/uploads'))
 
 app.post('/auth/login',loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors,  UserController.register)
