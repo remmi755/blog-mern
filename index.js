@@ -21,10 +21,10 @@ const app = express();
 
 const storage = multer.diskStorage({
     destination:(_,__, cb) => {
-        if(!fs.existsSync('uploads')) {
-            fs.mkdirSync('uploads')
+        if(!fs.existsSync('https://mern-blog-new.onrender.com/uploads')) {
+            fs.mkdirSync('https://mern-blog-new.onrender.com/uploads')
         }
-        cb(null, 'uploads')
+        cb(null, 'https://mern-blog-new.onrender.com/uploads')
     },
     filename:(_, file, cb) => {
         cb(null, file.originalname)
