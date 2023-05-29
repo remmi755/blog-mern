@@ -61,8 +61,7 @@ export const sortByTag = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const postId = (req.params.id).trim();
-
-     await PostModel.findOneAndUpdate({_id: postId},
+        await PostModel.findOneAndUpdate({_id: postId},
             {$inc: {viewsCount: 1}},
             {returnDocument: "after"} ).populate(`user`)
             .then((doc, err) => {

@@ -11,7 +11,6 @@ import { handleValidationErrors, checkAuth }  from './utils/index.js'
 import { UserController, PostController } from "./controllers/index.js";
 
 mongoose.connect('mongodb+srv://remmi:wwwwww@cluster0.j5xu8.mongodb.net/blog?retryWrites=true&w=majority')
-// mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("DB  OK")
     })
@@ -60,10 +59,7 @@ app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, Post
 app.patch('/posts/:id', checkAuth,postCreateValidation, handleValidationErrors,PostController.update );
 app.delete('/posts/:id', checkAuth, PostController.remove );
 
-const PORT = 'https://mern-blog-new.onrender.com'
-// const PORT = process.env.PORT || 4444
 app.listen( process.env.PORT || 4444, (err) => {
-    console.log(`Server is listening on port ${process.env.PORT}`);
     if (err) {
         return console.log(err)
     }
