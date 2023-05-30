@@ -159,7 +159,6 @@ export const create = async (req, res) => {
             user: req.userId,
             comments: req.body.comments
         })
-
         const post = await doc.save();
 
         res.json(post);
